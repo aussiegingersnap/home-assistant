@@ -2,8 +2,8 @@
 #
 # To update, run python3 -m script.hassfest -p docker
 
-# Use Python 3.11 base image
-FROM python:3.11-alpine
+# Use Python 3.12 base image
+FROM python:3.12-alpine
 
 # Install required packages
 RUN apk add --no-cache curl build-base
@@ -48,6 +48,9 @@ COPY homeassistant/package_constraints.txt homeassistant/homeassistant/
 RUN \
     uv pip install \
         --no-build \
+        --index-url https://pypi.org/simple \
+        --extra-index-url https://wheels.home-assistant.io/musllinux/ \
+        --index-strategy=compatible-with-last-artifact \
         -r homeassistant/requirements.txt
 
 COPY requirements_all.txt home_assistant_frontend-* home_assistant_intents-* homeassistant/
@@ -57,6 +60,9 @@ RUN \
     fi \
     && uv pip install \
         --no-build \
+        --index-url https://pypi.org/simple \
+        --extra-index-url https://wheels.home-assistant.io/musllinux/ \
+        --index-strategy=compatible-with-last-artifact \
         -r homeassistant/requirements_all.txt
 
 ## Setup Home Assistant Core
