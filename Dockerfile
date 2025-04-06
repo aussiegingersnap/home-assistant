@@ -6,13 +6,17 @@
 FROM ghcr.io/home-assistant/amd64-base:latest
 
 # Install curl, python3, and pip3 early
-RUN apk add --no-cache curl python3 py3-pip
+RUN apk add --no-cache curl python3 py3-pip python3-dev build-base
+
+# Create a virtual environment
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Synchronize with homeassistant/core.py:async_stop
 ENV \
     S6_SERVICES_GRACETIME=240000 \
-    UV_SYSTEM_PYTHON=true \
-    UV_NO_CACHE=true
+    UV_SYSTEM_PYTHON=false
 
 ARG QEMU_CPU
 
@@ -35,8 +39,8 @@ RUN \
     # Verify go2rtc can be executed
     && go2rtc --version
 
-# Install uv, bypassing PEP 668 restriction
-RUN pip3 install uv==0.6.10 --break-system-packages
+# Install uv in the virtual environment
+RUN pip install --upgrade pip && pip install uv==0.6.10
 
 WORKDIR /usr/src
 
@@ -62,7 +66,7 @@ COPY . homeassistant/
 RUN \
     uv pip install \
         -e ./homeassistant \
-    && python3 -m compileall \
+    && python -m compileall \
         homeassistant/homeassistant
 
 WORKDIR /config
