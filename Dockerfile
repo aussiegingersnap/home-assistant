@@ -7,7 +7,7 @@ ARG BUILD_FROM=python:3.13-alpine
 FROM ${BUILD_FROM}
 
 # Install required packages
-RUN apk add --no-cache curl build-base linux-headers
+RUN apk add --no-cache curl build-base linux-headers autoconf
 
 # Create a virtual environment
 ENV VIRTUAL_ENV=/opt/venv
