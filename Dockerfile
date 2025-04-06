@@ -17,6 +17,9 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Synchronize with homeassistant/core.py:async_stop
 ENV S6_SERVICES_GRACETIME=240000
 
+# Set compilation flags to fix build errors
+ENV CFLAGS="-Wno-error=int-conversion -Wno-error"
+
 ARG QEMU_CPU
 
 # Home Assistant S6-Overlay
