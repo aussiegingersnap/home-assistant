@@ -2,8 +2,9 @@
 #
 # To update, run python3 -m script.hassfest -p docker
 
-# Use Python 3.12 base image
-FROM python:3.12-alpine
+# Use build arguments for flexibility
+ARG BUILD_FROM=python:3.12-alpine
+FROM ${BUILD_FROM}
 
 # Install required packages
 RUN apk add --no-cache curl build-base
@@ -21,7 +22,7 @@ ARG QEMU_CPU
 # Home Assistant S6-Overlay
 COPY rootfs /
 
-# Define BUILD_ARCH explicitly for Railway (assuming x86_64)
+# Define BUILD_ARCH explicitly for Railway (assuming x86_64 if not set)
 ARG BUILD_ARCH=amd64
 
 # Get go2rtc binary
