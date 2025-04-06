@@ -35,8 +35,8 @@ RUN \
     # Verify go2rtc can be executed
     && go2rtc --version
 
-# Install uv
-RUN pip3 install uv==0.6.10
+# Install uv, bypassing PEP 668 restriction
+RUN pip3 install uv==0.6.10 --break-system-packages
 
 WORKDIR /usr/src
 
