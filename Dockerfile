@@ -2,11 +2,11 @@
 #
 # To update, run python3 -m script.hassfest -p docker
 
-# Use a specific base image instead of ARG BUILD_FROM
+# Use a specific base image
 FROM ghcr.io/home-assistant/amd64-base:latest
 
-# Install curl early to ensure it’s available for go2rtc download
-RUN apk add --no-cache curl
+# Install curl, python3, and pip3 early
+RUN apk add --no-cache curl python3 py3-pip
 
 # Synchronize with homeassistant/core.py:async_stop
 ENV \
