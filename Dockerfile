@@ -2,24 +2,19 @@
 #
 # To update, run python3 -m script.hassfest -p docker
 
-# Use a specific base image
-FROM ghcr.io/home-assistant/amd64-base:latest
+# Use Python 3.11 base image
+FROM python:3.11-alpine
 
-# Install curl, python3, and pip3 early
-RUN apk add --no-cache curl python3 py3-pip python3-dev build-base
-
-# Make sure we use Python 3.11
-RUN apk add --no-cache python3=~3.11 py3-pip=~3.11
+# Install required packages
+RUN apk add --no-cache curl build-base
 
 # Create a virtual environment
 ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
+RUN python -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Synchronize with homeassistant/core.py:async_stop
-ENV \
-    S6_SERVICES_GRACETIME=240000 \
-    UV_SYSTEM_PYTHON=false
+ENV S6_SERVICES_GRACETIME=240000
 
 ARG QEMU_CPU
 
