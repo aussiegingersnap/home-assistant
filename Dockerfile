@@ -2,7 +2,7 @@
 #
 # To update, run python3 -m script.hassfest -p docker
 ARG BUILD_FROM
-FROM ${BUILD_FROM}
+FROM ghcr.io/home-assistant/amd64-base:latest
 
 # Synchronize with homeassistant/core.py:async_stop
 ENV \
