@@ -48,7 +48,6 @@ COPY requirements.txt homeassistant/
 COPY homeassistant/package_constraints.txt homeassistant/homeassistant/
 RUN \
     uv pip install \
-        --no-build \
         --index-url https://pypi.org/simple \
         --extra-index-url https://wheels.home-assistant.io/musllinux/ \
         --index-strategy=unsafe-best-match \
@@ -60,7 +59,6 @@ RUN \
         uv pip install homeassistant/home_assistant_*.whl; \
     fi \
     && uv pip install \
-        --no-build \
         --index-url https://pypi.org/simple \
         --extra-index-url https://wheels.home-assistant.io/musllinux/ \
         --index-strategy=unsafe-best-match \
