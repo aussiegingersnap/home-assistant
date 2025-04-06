@@ -3,7 +3,7 @@
 # To update, run python3 -m script.hassfest -p docker
 
 # Use build arguments for flexibility
-ARG BUILD_FROM=python:3.12-alpine
+ARG BUILD_FROM=python:3.13-alpine
 FROM ${BUILD_FROM}
 
 # Install required packages
